@@ -115,7 +115,7 @@ TEST(ALLCOST, allcost)
     runAllCost();
 }
 
-TEST(TOPSORT, runTopSort)
+TEST(TOPSORT, topsort)
 {
     runTopSort();
 }
