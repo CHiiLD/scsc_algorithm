@@ -8,6 +8,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
         unittest.cpp
-        binadd.c binadd.h bintree.c bintree.h binstar.c binstar.h binoper.c binoper.h topsort.c topsort.h graphoper.c graphoper.h allcost.c allcost.h)
+        binadd.c binadd.h bintree.c bintree.h binstar.c binstar.h binoper.c binoper.h topsort.c topsort.h graphoper.c graphoper.h allcost.c allcost.h sort.c sort.h)
 add_executable(SCSC161 ${SOURCE_FILES})
 target_link_libraries(SCSC161 /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)

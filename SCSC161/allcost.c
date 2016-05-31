@@ -32,7 +32,6 @@ void allcosts(int cost[][MAX_V], int distance[][MAX_V], int n)
                     printf("%d ", distance[i][j]);
                 else
                     printf("%d ", -1);
-
             }
             printf("\n");
         }

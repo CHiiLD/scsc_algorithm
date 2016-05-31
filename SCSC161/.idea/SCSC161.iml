@@ -8,10 +8,12 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/binadd.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/binstar.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sort.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/binoper.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/allcost.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/binstar.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/binoper.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/sort.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphoper.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphoper.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/topsort.h" isTestSource="false" />
