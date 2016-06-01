@@ -226,11 +226,9 @@ TEST(SORT, selection)
 
 TEST(SORT, performance_random)
 {
-    const int IDX = 2;
-    const int TEST_COUNT = 15;
-    const int COUNT = pow(IDX, TEST_COUNT); //2^15
+    const int IDX = 1000;
+    const int COUNT = 60000;
     int *clone, *origin, *extra, n;
-    int degree = 1;
     time_t start;
     double result[4];
 
@@ -239,7 +237,7 @@ TEST(SORT, performance_random)
     extra = (int *) malloc(sizeof(int) * COUNT);
 
     printf("%s\t%s\t%s\t%s\t%s\n", "개수", "선택정렬", "삽입정렬", "퀵정렬", "합병정렬");
-    for (n = pow(IDX, degree++); n <= COUNT; n = pow(IDX, degree++))
+    for (n = IDX; n <= COUNT; n += IDX)
     {
         memcpy(clone, origin, sizeof(int) * COUNT);
         start = clock();
@@ -271,11 +269,9 @@ TEST(SORT, performance_random)
 
 TEST(SORT, performance_descending_order)
 {
-    const int IDX = 2;
-    const int TEST_COUNT = 15;
-    const int COUNT = pow(IDX, TEST_COUNT); //2^15
+    const int IDX = 1000;
+    const int COUNT = 60000;
     int *clone, *origin, *extra, n;
-    int degree = 1;
     time_t start;
     double result[4];
 
@@ -284,7 +280,7 @@ TEST(SORT, performance_descending_order)
     extra = (int *) malloc(sizeof(int) * COUNT);
 
     printf("%s\t%s\t%s\t%s\t%s\n", "개수", "선택정렬", "삽입정렬", "퀵정렬", "합병정렬");
-    for (n = pow(IDX, degree++); n <= COUNT; n = pow(IDX, degree++))
+    for (n = IDX; n <= COUNT; n += IDX)
     {
         memcpy(clone, origin, sizeof(int) * COUNT);
         start = clock();
