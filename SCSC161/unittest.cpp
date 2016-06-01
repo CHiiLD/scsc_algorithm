@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include <math.h>
 #include "graphoper.h"
 #include "binstar.h"
 #include "binadd.h"
@@ -179,7 +178,7 @@ TEST(SORT, quick)
     before = createValuesRandomly(COUNT);
     after = copyArrayValues(before, COUNT);
 
-    quickSort(after, 0, COUNT - 1);
+    quickSort(after, 1, COUNT - 1);
 
     printf("before|after\n");
     for (i = 0; i < COUNT; ++i)
@@ -224,88 +223,84 @@ TEST(SORT, selection)
     free(before);
 }
 
-TEST(SORT, performance_random)
+TEST(SORT, heap)
 {
-    const int IDX = 1000;
-    const int COUNT = 60000;
-    int *clone, *origin, *extra, n;
+    const int COUNT = 11;
+    int i, *after, *before;
+    before = createValuesRandomly(COUNT);
+    after = copyArrayValues(before, COUNT);
+
+    heapSort(after, COUNT - 1);
+
+    printf("before|after\n");
+    for (i = 1; i < COUNT; ++i)
+        printf("%d%7d\n", before[i], after[i]);
+
+    free(after);
+    free(before);
+}
+
+void testSortPerformance(int *origin, int size, int idx, int inteval)
+{
+    const int START = idx;
+    const int LIMIT = size;
+    const int INTEVAL = inteval;
+    int *clone, *extra, i;
     time_t start;
-    double result[4];
+    double result[5];
 
-    origin = createValuesRandomly(COUNT);
-    clone = (int *) malloc(sizeof(int) * COUNT);
-    extra = (int *) malloc(sizeof(int) * COUNT);
+    clone = (int *) malloc(sizeof(int) * LIMIT);
+    extra = (int *) malloc(sizeof(int) * LIMIT);
 
-    printf("%s\t%s\t%s\t%s\t%s\n", "개수", "선택정렬", "삽입정렬", "퀵정렬", "합병정렬");
-    for (n = IDX; n <= COUNT; n += IDX)
+    printf("%s\t%s\t%s\t%s\t%s\t%s\n", "개수", "선택정렬", "삽입정렬", "퀵정렬", "합병정렬", "히프정렬");
+    for (i = START; i <= LIMIT; i += INTEVAL)
     {
-        memcpy(clone, origin, sizeof(int) * COUNT);
+        memcpy(clone, origin, sizeof(int) * LIMIT);
         start = clock();
-        selectionSort(clone, n);
+        selectionSort(clone, i);
         result[0] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
 
-        memcpy(clone, origin, sizeof(int) * COUNT);
+        memcpy(clone, origin, sizeof(int) * LIMIT);
         start = clock();
-        insertionSort(clone, n);
+        insertionSort(clone, i);
         result[1] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
 
-        memcpy(clone, origin, sizeof(int) * COUNT);
+        memcpy(clone, origin, sizeof(int) * LIMIT);
         start = clock();
-        quickSort(clone, 0, n - 1);
+        quickSort(clone, 1, i - 1);
         result[2] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
 
-        memcpy(clone, origin, sizeof(int) * COUNT);
+        memcpy(clone, origin, sizeof(int) * LIMIT);
         start = clock();
-        mergeSort(clone, extra, n - 1);
+        mergeSort(clone, extra, i - 1);
         result[3] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
 
-        printf("%d\t%lf\t%lf\t%lf\t%lf\n", n, result[0], result[1], result[2], result[3]);
+        memcpy(clone, origin, sizeof(int) * LIMIT);
+        start = clock();
+        heapSort(clone, i - 1);
+        result[4] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
+
+        printf("%d\t%lf\t%lf\t%lf\t%lf\t%lf\n", i, result[0], result[1], result[2], result[3], result[4]);
     }
 
     free(clone);
-    free(origin);
     free(extra);
+}
+
+TEST(SORT, performance_random)
+{
+    const int IDX = 1000;
+    const int COUNT = 50000;
+    int *origin = createValuesRandomly(COUNT);
+    testSortPerformance(origin, COUNT, IDX, IDX);
+    free(origin);
 }
 
 TEST(SORT, performance_descending_order)
 {
     const int IDX = 1000;
-    const int COUNT = 60000;
-    int *clone, *origin, *extra, n;
-    time_t start;
-    double result[4];
-
-    origin = createDescendingValues(COUNT);
-    clone = (int *) malloc(sizeof(int) * COUNT);
-    extra = (int *) malloc(sizeof(int) * COUNT);
-
-    printf("%s\t%s\t%s\t%s\t%s\n", "개수", "선택정렬", "삽입정렬", "퀵정렬", "합병정렬");
-    for (n = IDX; n <= COUNT; n += IDX)
-    {
-        memcpy(clone, origin, sizeof(int) * COUNT);
-        start = clock();
-        selectionSort(clone, n);
-        result[0] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
-
-        memcpy(clone, origin, sizeof(int) * COUNT);
-        start = clock();
-        insertionSort(clone, n);
-        result[1] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
-
-        memcpy(clone, origin, sizeof(int) * COUNT);
-        start = clock();
-        quickSort(clone, 0, n - 1);
-        result[2] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
-
-        memcpy(clone, origin, sizeof(int) * COUNT);
-        start = clock();
-        mergeSort(clone, extra, n - 1);
-        result[3] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
-
-        printf("%d\t%lf\t%lf\t%lf\t%lf\n", n, result[0], result[1], result[2], result[3]);
-    }
-
-    free(clone);
+    const int COUNT = 50000;
+    int *origin = createDescendingValues(COUNT);
+    testSortPerformance(origin, COUNT, IDX, IDX);
     free(origin);
-    free(extra);
 }

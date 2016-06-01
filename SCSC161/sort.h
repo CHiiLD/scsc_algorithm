@@ -13,4 +13,6 @@ void quickSort(int *list, int left, int right);
 
 void mergeSort(int *list, int *result, int n);
 
+void heapSort(int *list, int n);
+
 #endif //SCSC161_SORT_H

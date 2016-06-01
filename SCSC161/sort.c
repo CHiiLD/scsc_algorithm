@@ -2,8 +2,6 @@
 // Created by 김아동 on 2016. 6. 1..
 //
 
-//삽입정렬 구현 , 퀵정렬 구현, 병합정렬 구현 ... 4가지 정렬을 이용하여 데이터 별 정렬시간을 측정하고 분석할 것. 각 정렬의 성능을 그래프로 나타내고 비교.
-
 #include "sort.h"
 
 void selectionSort(int *list, int n)
@@ -54,30 +52,52 @@ void swap(int *i, int *j)
 
 void quickSort(int *list, int left, int right)
 {
-    int pivot, i, j;
-    if (left < right)
-    {
-        i = left;
-        j = right + 1;
-        pivot = list[left];
-        do
-        {
-            do
-                i++;
-            while (list[i] < pivot);
-            do
-                j--;
-            while (list[j] > pivot);
-            if (i < j)
-                swap(&list[i], &list[j]);
+//    int pivot, i, j;
+//    if (left < right)
+//    {
+//        i = left;
+//        j = right + 1;
+//        pivot = list[left];
+//        do
+//        {
+//            do
+//                i++;
+//            while (list[i] < pivot);
+//            do
+//                j--;
+//            while (list[j] > pivot);
+//            if (i < j)
+//                swap(&list[i], &list[j]);
+//
+//        } while (i < j);
+//        swap(&list[left], &list[j]);
+//        quickSort(list, left, j - 1);
+//        quickSort(list, j + 1, right);
+//    }
+    int *arr = list;
+    int i = left, j = right;
+    int temp;
+    int pivot = arr[(left + right) / 2];
 
-        } while (i < j);
+    while (i <= j)
+    {
+        while (arr[i] < pivot)
+            i++;
+        while (arr[j] > pivot)
+            j--;
+        if (i <= j)
+        {
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
+        }
     }
-    else
-        return;
-    swap(&list[left], &list[j]);
-    quickSort(list, left, j - 1);
-    quickSort(list, j + 1, right);
+    if (left < j)
+        quickSort(arr, left, j);
+    if (i < right)
+        quickSort(arr, i, right);
 }
 
 void merge(int *initList, int *mergeList, int i, int m, int n)
@@ -129,5 +149,40 @@ void mergeSort(int *list, int *extra, int n)
         s *= 2;
         mergePass(extra, list, n, s);
         s *= 2;
+    }
+}
+
+void adjust(int *list, int root, int n)
+{
+    int temp, child, rootkey;
+    temp = list[root];
+    rootkey = list[root];
+    child = 2 * root;
+    while (child <= n)
+    {
+        if ((child < n) && (list[child] < list[child + 1]))
+            child++;
+        if (rootkey > list[child])
+        {
+            break;
+        }
+        else
+        {
+            list[child / 2] = list[child];
+            child *= 2;
+        }
+    }
+    list[child / 2] = temp;
+}
+
+void heapSort(int *list, int n)
+{
+    int i;
+    for (i = n / 2; i > 0; --i)
+        adjust(list, i, n);
+    for (i = n - 1; i > 0; --i)
+    {
+        swap(&list[1], &list[i + 1]);
+        adjust(list, 1, i);
     }
 }
