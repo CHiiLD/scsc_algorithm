@@ -178,7 +178,7 @@ TEST(SORT, quick)
     before = createValuesRandomly(COUNT);
     after = copyArrayValues(before, COUNT);
 
-    quickSort(after, 1, COUNT - 1);
+    quickSort(after, 0, COUNT - 1);
 
     printf("before|after\n");
     for (i = 0; i < COUNT; ++i)
@@ -267,7 +267,7 @@ void testSortPerformance(int *origin, int size, int idx, int inteval)
 
         memcpy(clone, origin, sizeof(int) * LIMIT);
         start = clock();
-        quickSort(clone, 1, i - 1);
+        quickSort(clone, 0, i - 1);
         result[2] = (double) (clock() - start) / (CLOCKS_PER_SEC / 1000);
 
         memcpy(clone, origin, sizeof(int) * LIMIT);
@@ -289,18 +289,20 @@ void testSortPerformance(int *origin, int size, int idx, int inteval)
 
 TEST(SORT, performance_random)
 {
-    const int IDX = 1000;
-    const int COUNT = 50000;
+    const int IDX = 5000;
+    const int INTEVAL = 5000;
+    const int COUNT = 200000;
     int *origin = createValuesRandomly(COUNT);
-    testSortPerformance(origin, COUNT, IDX, IDX);
+    testSortPerformance(origin, COUNT, IDX, INTEVAL);
     free(origin);
 }
 
 TEST(SORT, performance_descending_order)
 {
-    const int IDX = 1000;
-    const int COUNT = 50000;
+    const int IDX = 5000;
+    const int INTEVAL = 5000;
+    const int COUNT = 200000;
     int *origin = createDescendingValues(COUNT);
-    testSortPerformance(origin, COUNT, IDX, IDX);
+    testSortPerformance(origin, COUNT, IDX, INTEVAL);
     free(origin);
 }

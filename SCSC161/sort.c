@@ -52,52 +52,50 @@ void swap(int *i, int *j)
 
 void quickSort(int *list, int left, int right)
 {
-//    int pivot, i, j;
-//    if (left < right)
-//    {
-//        i = left;
-//        j = right + 1;
-//        pivot = list[left];
-//        do
-//        {
-//            do
-//                i++;
-//            while (list[i] < pivot);
-//            do
-//                j--;
-//            while (list[j] > pivot);
-//            if (i < j)
-//                swap(&list[i], &list[j]);
-//
-//        } while (i < j);
-//        swap(&list[left], &list[j]);
-//        quickSort(list, left, j - 1);
-//        quickSort(list, j + 1, right);
-//    }
-    int *arr = list;
-    int i = left, j = right;
-    int temp;
-    int pivot = arr[(left + right) / 2];
-
-    while (i <= j)
+    int pivot, i, j;
+    if (left < right)
     {
-        while (arr[i] < pivot)
-            i++;
-        while (arr[j] > pivot)
-            j--;
-        if (i <= j)
+        i = left;
+        j = right + 1;
+        pivot = list[left];
+        do
         {
-            temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-            i++;
-            j--;
-        }
+            do
+                i++;
+            while (list[i] < pivot && i <= right);
+            do
+                j--;
+            while (list[j] > pivot && j >= 0);
+            if (i < j)
+                swap(&list[i], &list[j]);
+
+        } while (i < j);
+        swap(&list[left], &list[j]);
+        quickSort(list, left, j - 1);
+        quickSort(list, j + 1, right);
     }
-    if (left < j)
-        quickSort(arr, left, j);
-    if (i < right)
-        quickSort(arr, i, right);
+
+//    int *arr = list;
+//    int i = left, j = right;
+//    int pivot = arr[(left + right) / 2];
+//
+//    while (i <= j)
+//    {
+//        while (arr[i] < pivot)
+//            i++;
+//        while (arr[j] > pivot)
+//            j--;
+//        if (i <= j)
+//        {
+//            swap(&arr[i], &arr[j]);
+//            i++;
+//            j--;
+//        }
+//    }
+//    if (left < j)
+//        quickSort(arr, left, j);
+//    if (i < right)
+//        quickSort(arr, i, right);
 }
 
 void merge(int *initList, int *mergeList, int i, int m, int n)
